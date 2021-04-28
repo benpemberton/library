@@ -1,4 +1,9 @@
-let myLibrary = [];
+const cards = document.getElementById('cards');
+
+let myLibrary = [
+    {title:'fifthseason', author: 'jm', genre: 'fant', pages: 600, read: 'no'},
+    {title: 'hobbit', author: 'tolkien', genre: 'fant', pages: 400, read: 'yes'},
+    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'}];
 
 function Book(title, author, genre, pages, read) {
     this.title = title
@@ -20,6 +25,29 @@ function addBookToLibrary() {
     myLibrary.push(new Book(...details));
 }
 
-addBookToLibrary();
+function createLibraryCards() {
+    for (let i = 0; i < myLibrary.length; i++) {
+        let div = document.createElement('div');
+        div.setAttribute('class', 'library-card');
+        let book = myLibrary[i];
+        let title = document.createElement('h2');
+        title.innerHTML = book['title'];
+        let author = document.createElement('p');
+        author.innerHTML = `By ${book['author']}`;
+        let genre = document.createElement('p');
+        genre.innerHTML = `Genre: ${book['genre']}`;
+        let pages = document.createElement('p');
+        pages.innerHTML = `Pages: ${book['pages']}`;
+        let read = document.createElement('p');
+        read.innerHTML = `Have I read it?: ${book['read']}`;
+        div.appendChild(title);
+        div.appendChild(author);
+        div.appendChild(genre);
+        div.appendChild(pages);
+        div.appendChild(read)
+        cards.appendChild(div);
+    }
+}
 
-console.log(myLibrary);
+
+createLibraryCards();
