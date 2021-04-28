@@ -1,5 +1,9 @@
 const cards = document.getElementById('cards');
 
+const newBookButton = document.getElementById('new-book');
+
+newBookButton.onclick = openModal;
+
 let myLibrary = [
     {title:'The Fifth Season', author: 'N.K. Jemisin', genre: 'Fantasy', pages: 439, read: 'No'},
     {title: 'hobbit', author: 'tolkien', genre: 'fant', pages: 400, read: 'yes'},
@@ -57,3 +61,10 @@ function createLibraryCards() {
 
 
 createLibraryCards();
+
+function openModal() {
+    let background = document.getElementById('modal-background');
+    let content = document.getElementById('modal-content');
+    background.style.display = 'block';
+    content.style.display = 'block';
+}
