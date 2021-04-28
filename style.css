@@ -113,24 +113,17 @@ h2 {
     animation-fill-mode: forwards;
 }
 
-
-
 #modal-content {
     display: none;
+    width: 30%;
     background-color: rgb(200, 223, 243);
     position: fixed;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 50%;    
     padding: 5%;
     border: 3px solid black;
-    animation-duration: 0.3s;
+    animation-duration: 0.4s;
     animation-name: grow-in;
-}
-
-.fade-in {
-    animation-duration: 0.5s;
-    animation-name: fade-in;
     animation-fill-mode: forwards;
 }
 
@@ -139,23 +132,11 @@ h2 {
     100% {opacity: 1}
 }
 
-.grow-in {
-    animation-duration: 0.3s;
-    animation-name: grow-in;
-    animation-fill-mode: forwards;
-}
-
 @keyframes grow-in {
     0% {
-        transform: scale(0);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%) scale(0);        
     }
     100% {
-        transform: scale(1);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%) scale(1);
     }
 }
