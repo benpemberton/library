@@ -49,3 +49,41 @@ table {
 
 /* mine starts here */
 
+h1 {
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    font-size: 2em;
+    margin: 50px;
+}
+
+h2 {
+    font-size: 1.25em;
+    padding-bottom: 5px;
+}
+
+#cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.library-card {
+    background-color: beige;
+    margin: 20px;
+    padding: 40px 20px;
+    font-family: 'Lucida Console', 'Courier Sans', sans-serif;
+    border-radius: 2px;
+}
+
+.library-card p:nth-of-type(1) {
+    padding-bottom: 20px;
+    font-size: 1.03em;
+}
+
+.library-card p:nth-of-type(3) {
+    padding: 5px 0;
+}
+
+.library-card:hover {
+    background-color: rgb(233, 233, 166);
+    box-shadow: 0px 0px 10px 2px grey;
+}

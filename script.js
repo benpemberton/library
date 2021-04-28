@@ -1,9 +1,15 @@
 const cards = document.getElementById('cards');
 
 let myLibrary = [
-    {title:'fifthseason', author: 'jm', genre: 'fant', pages: 600, read: 'no'},
+    {title:'The Fifth Season', author: 'N.K. Jemisin', genre: 'Fantasy', pages: 439, read: 'No'},
     {title: 'hobbit', author: 'tolkien', genre: 'fant', pages: 400, read: 'yes'},
-    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'}];
+    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'},
+    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'},
+    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'},
+    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'},
+    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'},
+    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'}
+];
 
 function Book(title, author, genre, pages, read) {
     this.title = title
