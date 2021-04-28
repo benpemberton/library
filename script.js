@@ -17,15 +17,9 @@ function addBookToLibrary() {
     details[3] = prompt('how many pages is it?', '');
     details[4] = prompt('whave you read it yet?', '');
 
-    let book = new Book(...details);
-
-    myLibrary.push(book);
-    
-    if (myLibrary.length > 1) {
-        () => {
-            
-        }
-    }
+    myLibrary.push(new Book(...details));
 }
 
 addBookToLibrary();
+
+console.log(myLibrary);
