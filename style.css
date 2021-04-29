@@ -127,6 +127,31 @@ h2 {
     animation-fill-mode: forwards;
 }
 
+.form-container {
+    display: grid;
+    grid-template-columns: 20% 1fr 20%;
+    grid-template-rows: auto;
+    grid-row-gap: 10px;
+}
+
+label {
+    grid-column: 1/2;
+    text-align: right;
+}
+
+input {
+    grid-column: 2/3;
+    margin-left: 5px;
+}
+
+.btn {
+    margin-top: 10px;
+}
+
+input[type="radio"], label[for="read"] {
+    display: inline;
+}
+
 @keyframes fade-in {
     0% {opacity: 0}
     100% {opacity: 1}
