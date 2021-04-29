@@ -7,18 +7,12 @@ newBookButton.onclick = openModal;
 const submitBookButton = document.querySelector('.submit');
 console.log(submitBookButton);
 
-submitBookButton.onclick = submitNewBook;
+submitBookButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    submitNewBook();
+});
 
-let myLibrary = [
-    {title:'The Fifth Season', author: 'N.K. Jemisin', genre: 'Fantasy', pages: 439, read: 'No'},
-    {title: 'hobbit', author: 'tolkien', genre: 'fant', pages: 400, read: 'yes'},
-    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'},
-    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'},
-    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'},
-    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'},
-    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'},
-    {title: 'another one', author: 'that person', genre: 'goodone', pages: 388, read: 'no'}
-];
+let myLibrary = [];
 
 function Book(title, author, genre, pages, read) {
     this.title = title
@@ -33,7 +27,7 @@ function addBookToLibrary(...details) {
 }
 
 function createLibraryCards() {
-    for (let i = 0; i < myLibrary.length; i++) {
+    for (let i = myLibrary.length-1; i >= 0; i--) {
         let div = document.createElement('div');
         div.setAttribute('class', 'library-card');
         let book = myLibrary[i];
@@ -56,6 +50,13 @@ function createLibraryCards() {
     }
 }
 
+function resetCardGrid() {
+    const cards = document.querySelectorAll('.library-card');
+    cards.forEach((card) => {
+        card.remove();
+    });
+}
+
 
 createLibraryCards();
 
@@ -65,6 +66,18 @@ function openModal() {
     background.style.display = 'block';
     content.style.display = 'block';
 }
+
+function closeModal() {
+    let background = document.getElementById('modal-background');
+    let content = document.getElementById('modal-content');
+    background.style.display = 'none';
+    content.style.display = 'none';
+}
+
+// function stopPageRefresh(e) {
+//     e.preventDefault();
+//     closeModal();
+// }
 
 function submitNewBook() {
     const details = [];
@@ -80,10 +93,24 @@ function submitNewBook() {
     for (const btn of radioBtns) {
         if (btn.checked) {
             details.push(btn.value);
-            console.log(details);
+            console.log(btn);
         }
     }
-    addBookToLibrary(details);
+    addBookToLibrary(...details);
+    resetCardGrid();
+    createLibraryCards();
+    closeModal();
+    resetForm();
+}
 
-    console.log(myLibrary);
+function resetForm() {
+    const inputs = document.getElementsByTagName('input');
+
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].type === 'radio') {
+            inputs[i].checked = null;
+        } else {
+            inputs[i].value = '';
+        }
+    }
 }
