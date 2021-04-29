@@ -117,6 +117,7 @@ h2 {
     display: none;
     width: 30%;
     background-color: rgb(200, 223, 243);
+    border-radius: 10px;
     position: fixed;
     top: 50%;
     left: 50%;    
@@ -129,7 +130,7 @@ h2 {
 
 .form-container {
     display: grid;
-    grid-template-columns: 20% 1fr 20%;
+    grid-template-columns: 20% 1fr 1fr 1fr 1fr 20%;
     grid-template-rows: auto;
     grid-row-gap: 10px;
 }
@@ -140,16 +141,39 @@ label {
 }
 
 input {
-    grid-column: 2/3;
+    grid-column: 2/6;
     margin-left: 5px;
 }
 
-.btn {
-    margin-top: 10px;
+form p {
+    grid-column: 2/6;
+    text-align: center;
 }
 
-input[type="radio"], label[for="read"] {
-    display: inline;
+.btn {
+    margin: 10px;
+    grid-column: 4/5;
+    grid-row: 7/8;
+    /* display: inline-block; */
+}
+
+.btn.cancel {
+    grid-column: 3/4;
+}
+
+input[name="readno"], label[for="readno"] {
+    grid-column: 3/4;
+    grid-row: 6/7;
+}
+
+input[name="readyes"], label[for="readyes"] {
+    grid-column: 4/5;
+    grid-row: 6/7;
+}
+
+label[for="readno"], label[for="readyes"] {
+    width: 40%;
+    margin-left: 25%;
 }
 
 @keyframes fade-in {
