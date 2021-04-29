@@ -161,12 +161,12 @@ form p {
     grid-column: 3/4;
 }
 
-input[name="readno"], label[for="readno"] {
+input[value="no"], label[for="readno"] {
     grid-column: 3/4;
     grid-row: 6/7;
 }
 
-input[name="readyes"], label[for="readyes"] {
+input[value="yes"], label[for="readyes"] {
     grid-column: 4/5;
     grid-row: 6/7;
 }

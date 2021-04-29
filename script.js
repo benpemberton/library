@@ -4,6 +4,11 @@ const newBookButton = document.getElementById('new-book');
 
 newBookButton.onclick = openModal;
 
+const submitBookButton = document.querySelector('.submit');
+console.log(submitBookButton);
+
+submitBookButton.onclick = submitNewBook;
+
 let myLibrary = [
     {title:'The Fifth Season', author: 'N.K. Jemisin', genre: 'Fantasy', pages: 439, read: 'No'},
     {title: 'hobbit', author: 'tolkien', genre: 'fant', pages: 400, read: 'yes'},
@@ -23,15 +28,7 @@ function Book(title, author, genre, pages, read) {
     this.read = read
 }
 
-function addBookToLibrary() {
-    const details = [];
-
-    details[0] = prompt('what is the name of the book?', '');
-    details[1] = prompt('who is the author?', '');
-    details[2] = prompt('what is the genre?', '');
-    details[3] = prompt('how many pages is it?', '');
-    details[4] = prompt('whave you read it yet?', '');
-
+function addBookToLibrary(...details) {
     myLibrary.push(new Book(...details));
 }
 
@@ -67,4 +64,26 @@ function openModal() {
     let content = document.getElementById('modal-content');
     background.style.display = 'block';
     content.style.display = 'block';
+}
+
+function submitNewBook() {
+    const details = [];
+    const inputs = document.getElementsByTagName('input');
+
+    for (let i = 0; i <= 3; i++) {
+            const content = inputs[i].value;
+            details.push(content);
+    }
+
+    const radioBtns = document.querySelectorAll('input[type="radio"]');
+
+    for (const btn of radioBtns) {
+        if (btn.checked) {
+            details.push(btn.value);
+            console.log(details);
+        }
+    }
+    addBookToLibrary(details);
+
+    console.log(myLibrary);
 }
