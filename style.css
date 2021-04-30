@@ -76,7 +76,7 @@ h2 {
 }
 
 .library-card {
-    background-color: beige;
+    background-color: #edebe6;
     margin: 20px;
     padding: 40px 20px;
     font-family: 'Lucida Console', 'Courier Sans', sans-serif;
@@ -96,6 +96,14 @@ h2 {
 .library-card:hover {
     background-color: rgb(233, 233, 166);
     box-shadow: 0px 0px 10px 2px grey;
+}
+
+.haveread {
+    border-right: 20px solid green;
+}
+
+.notread {
+    border-right: 20px solid red;
 }
 
 #modal-background {
