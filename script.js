@@ -1,4 +1,4 @@
-const cards = document.getElementById('cards');
+const cardsGrid = document.getElementById('cards-grid');
 
 const newBookButton = document.getElementById('new-book');
 
@@ -31,7 +31,7 @@ function addBookToLibrary(...details) {
     myLibrary.push(new Book(...details));
 }
 
-function createLibraryCards() {
+function createLibraryCard() {
     let i = myLibrary.length-1;
     let div = document.createElement('div');
     div.classList.add('library-card', readStatus(i));
@@ -66,7 +66,7 @@ function createLibraryCards() {
     div.appendChild(read);
     div.appendChild(toggleBtn);
     div.appendChild(removeBtn);
-    cards.appendChild(div);
+    cardsGrid.insertBefore(div, cardsGrid.firstChild);
 }
 
 function readStatus(i) {
@@ -90,7 +90,16 @@ function removeBook() {
     let i = card.dataset.index;
     myLibrary.splice(i, 1);
     card.remove();
+    indexCards();
+}
 
+function indexCards() {
+    const cards = document.querySelectorAll('.library-card');
+    let j = 0;
+    for (let i = myLibrary.length-1; i >= 0; i--) {
+        cards[j].dataset.index = i;
+        j++;
+    }
 }
 
 function openModal() {
@@ -125,7 +134,7 @@ function submitNewBook() {
     }
     addBookToLibrary(...details);
     
-    createLibraryCards();
+    createLibraryCard();
     closeModal();
     resetForm();
 }
