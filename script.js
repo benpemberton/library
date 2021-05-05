@@ -1,3 +1,18 @@
+const firebaseConfig = {
+    apiKey: "AIzaSyAQBxUCa-LYsy_6EFTJHBkY78BkcrR-riY",
+    authDomain: "library-d9bf9.firebaseapp.com",
+    databaseURL: "https://library-d9bf9-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "library-d9bf9",
+    storageBucket: "library-d9bf9.appspot.com",
+    messagingSenderId: "860547309394",
+    appId: "1:860547309394:web:063c576ca70e7a45f0648b",
+    measurementId: "G-F6MYL2F8Y8"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const dbRef = firebase.database().ref();
+
 const cardsGrid = document.getElementById('cards-grid');
 
 const newBookButton = document.getElementById('new-book');
@@ -13,6 +28,16 @@ submitBookButton.addEventListener('click', (e) => {
 
 let myLibrary = [];
 
+window.onload = () => {
+    dbRef.on('value', snap => {
+        myLibrary.push(...snapshotToArray(snap));
+    });
+}
+
+if (myLibrary.length > 0) {
+    
+}
+
 function Book(title, author, genre, pages, read) {
     this.title = title
     this.author = author
@@ -27,9 +52,27 @@ Book.prototype.toggleRead = (card, i) => {
     readP.innerHTML = `Have I read it?: ${i.read}`;
 }
 
+// function addBookToLibrary(...details) {
+//     myLibrary.push(new Book(...details));
+// }
+
 function addBookToLibrary(...details) {
-    myLibrary.push(new Book(...details));
+    const bookRef = dbRef.child(`${details[0]}`);
+    bookRef.set(new Book(...details))
 }
+
+function snapshotToArray(snapshot) {
+    const returnArr = [];
+
+    snapshot.forEach((childSnapshot) => {
+        const item = childSnapshot.val();
+        item.key = childSnapshot.key;
+
+        returnArr.push(item);
+    });
+
+    return returnArr;
+};
 
 function createLibraryCard() {
     let i = myLibrary.length-1;
@@ -75,7 +118,6 @@ function readStatus(i) {
     } else {
         return 'notread';
     }
-
 }
 
 function resetCardGrid() {
