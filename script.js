@@ -28,15 +28,14 @@ submitBookButton.addEventListener('click', (e) => {
 
 let myLibrary = [];
 
-// window.onload = () => {
-//     dbRef.on('value', snap => {
-//         myLibrary.push(...snapshotToArray(snap));
-//     });
-
-//     if (myLibrary.length > 0) {
-    
-//     }
-// }
+window.onload = () => {
+    dbRef.on('value', snap => {
+        let dbBooks = snapshotToArray(snap);
+        if (dbBooks.length > 0) {
+            buildLibraryFromDB(dbBooks);
+        }
+    });
+}
 
 function Book(title, author, genre, pages, read) {
     this.title = title
@@ -56,6 +55,36 @@ function addBookToLibrary(...details) {
     myLibrary.push(new Book(...details));
 }
 
+function buildLibraryFromDB(dbBooks) {
+    dbBooks.forEach(book => {
+        const details = [];
+        const jumbledList = Object.keys(book);
+        for (let i = 0; i < jumbledList.length; i++) {
+            const prop = jumbledList[i];
+            switch(prop) {
+                case 'title':
+                    details[0] = book[prop]
+                    break;
+                case 'author':
+                    details[1] = book[prop]
+                    break;
+                case 'genre':
+                    details[2] = book[prop]
+                    break;
+                case 'pages':
+                    details[3] = book[prop]
+                    break;
+                case 'read':
+                    details[4] = book[prop]
+                    break;
+            }
+        }
+        addBookToLibrary(...details);
+        createLibraryCard();
+    });
+    dbRef.off('value');    
+}
+
 function syncWithDB(add, toggle, remove) {
     if (add) {
         const book = myLibrary[myLibrary.length-1];
@@ -72,23 +101,13 @@ function syncWithDB(add, toggle, remove) {
     }
 }
 
-// function addBookToLibrary(...details) {
-//     const bookRef = dbRef.child(`${details[0]}`);
-//     bookRef.set(new Book(...details))
-// }
-
-// function snapshotToArray(snapshot) {
-//     const returnArr = [];
-
-//     snapshot.forEach((childSnapshot) => {
-//         const item = childSnapshot.val();
-//         item.key = childSnapshot.key;
-
-//         returnArr.push(item);
-//     });
-
-//     return returnArr;
-// };
+function snapshotToArray(snapshot) {
+    const returnArr = [];
+    snapshot.forEach((childSnapshot) => {
+        returnArr.push(childSnapshot.val());
+    });
+    return returnArr;
+};
 
 function createLibraryCard() {
     let i = myLibrary.length-1;
