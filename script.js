@@ -28,15 +28,15 @@ submitBookButton.addEventListener('click', (e) => {
 
 let myLibrary = [];
 
-window.onload = () => {
-    dbRef.on('value', snap => {
-        myLibrary.push(...snapshotToArray(snap));
-    });
-}
+// window.onload = () => {
+//     dbRef.on('value', snap => {
+//         myLibrary.push(...snapshotToArray(snap));
+//     });
 
-if (myLibrary.length > 0) {
+//     if (myLibrary.length > 0) {
     
-}
+//     }
+// }
 
 function Book(title, author, genre, pages, read) {
     this.title = title
@@ -46,33 +46,49 @@ function Book(title, author, genre, pages, read) {
     this.read = read
 }
 
-Book.prototype.toggleRead = (card, i) => {
-    i.read === 'yes'? i.read = 'no': i.read = 'yes';
+Book.prototype.toggleRead = (card, book) => {
+    book.read === 'yes'? book.read = 'no': book.read = 'yes';
     const readP = card.querySelector('.read-p');
-    readP.innerHTML = `Have I read it?: ${i.read}`;
+    readP.innerHTML = `Have I read it?: ${book.read}`;
+}
+
+function addBookToLibrary(...details) {
+    myLibrary.push(new Book(...details));
+}
+
+function syncWithDB(add, toggle, remove) {
+    if (add) {
+        const book = myLibrary[myLibrary.length-1];
+        const bookRef = dbRef.child(`${book.title}`);
+        bookRef.set(book);
+    }
+    if (toggle) {
+        const keyRef = dbRef.child(`${toggle.title}/read`);
+        keyRef.set(`${toggle.read}`);
+    } 
+    if (remove) {
+        const bookRef = dbRef.child(`${remove.title}`);
+        bookRef.remove();
+    }
 }
 
 // function addBookToLibrary(...details) {
-//     myLibrary.push(new Book(...details));
+//     const bookRef = dbRef.child(`${details[0]}`);
+//     bookRef.set(new Book(...details))
 // }
 
-function addBookToLibrary(...details) {
-    const bookRef = dbRef.child(`${details[0]}`);
-    bookRef.set(new Book(...details))
-}
+// function snapshotToArray(snapshot) {
+//     const returnArr = [];
 
-function snapshotToArray(snapshot) {
-    const returnArr = [];
+//     snapshot.forEach((childSnapshot) => {
+//         const item = childSnapshot.val();
+//         item.key = childSnapshot.key;
 
-    snapshot.forEach((childSnapshot) => {
-        const item = childSnapshot.val();
-        item.key = childSnapshot.key;
+//         returnArr.push(item);
+//     });
 
-        returnArr.push(item);
-    });
-
-    return returnArr;
-};
+//     return returnArr;
+// };
 
 function createLibraryCard() {
     let i = myLibrary.length-1;
@@ -98,8 +114,10 @@ function createLibraryCard() {
     let toggleBtn = document.createElement('button');
     toggleBtn.addEventListener('click', (e) => {
         const card = e.target.closest('.library-card');
-        const i = myLibrary[card.dataset.index];
-        i.toggleRead(card, i);
+        const book = myLibrary[card.dataset.index];
+        console.log(book);
+        book.toggleRead(card, book);
+        syncWithDB(0, book, 0);
     });
     toggleBtn.innerHTML = 'Read toggle';
     div.appendChild(title);
@@ -129,7 +147,9 @@ function resetCardGrid() {
 
 function removeBook() {
     const card = this.closest('.library-card');
-    let i = card.dataset.index;
+    const i = card.dataset.index;
+    const book = myLibrary[i];
+    syncWithDB(0, 0, book);
     myLibrary.splice(i, 1);
     card.remove();
     indexCards();
@@ -175,7 +195,7 @@ function submitNewBook() {
         }
     }
     addBookToLibrary(...details);
-    
+    syncWithDB(1, 0, 0)
     createLibraryCard();
     closeModal();
     resetForm();
