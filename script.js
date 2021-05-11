@@ -26,10 +26,15 @@ submitBookButton.addEventListener('click', (e) => {
     submitNewBook();
 });
 
+const cancelButton = document.querySelector('.cancel');
+
+cancelButton.onclick = closeModal;
+
 let myLibrary = [];
 
 window.onload = () => {
-    dbRef.on('value', snap => {
+    const orderedBooks = dbRef.orderByChild('date');
+    orderedBooks.on('value', snap => {
         let dbBooks = snapshotToArray(snap);
         if (dbBooks.length > 0) {
             buildLibraryFromDB(dbBooks);
@@ -46,6 +51,13 @@ function Book(title, author, genre, pages, read) {
 }
 
 Book.prototype.toggleRead = (card, book) => {
+    if (book.read === 'yes') {
+        card.classList.add('notread');
+        card.classList.remove('haveread');
+    } else {
+        card.classList.add('haveread');
+        card.classList.remove('notread');
+    }
     book.read === 'yes'? book.read = 'no': book.read = 'yes';
     const readP = card.querySelector('.read-p');
     readP.innerHTML = `Have I read it?: ${book.read}`;
@@ -90,6 +102,7 @@ function syncWithDB(add, toggle, remove) {
         const book = myLibrary[myLibrary.length-1];
         const bookRef = dbRef.child(`${book.title}`);
         bookRef.set(book);
+        bookRef.child('date').set(firebase.database.ServerValue.TIMESTAMP);
     }
     if (toggle) {
         const keyRef = dbRef.child(`${toggle.title}/read`);
