@@ -42,25 +42,26 @@ window.onload = () => {
     });
 }
 
-function Book(title, author, genre, pages, read) {
-    this.title = title
-    this.author = author
-    this.genre = genre
-    this.pages = pages
-    this.read = read
-}
-
-Book.prototype.toggleRead = (card, book) => {
-    if (book.read === 'yes') {
-        card.classList.add('notread');
-        card.classList.remove('haveread');
-    } else {
-        card.classList.add('haveread');
-        card.classList.remove('notread');
+class Book {
+    constructor (title, author, genre, pages, read) {
+        this.title = title
+        this.author = author
+        this.genre = genre
+        this.pages = pages
+        this.read = read
     }
-    book.read === 'yes'? book.read = 'no': book.read = 'yes';
-    const readP = card.querySelector('.read-p');
-    readP.innerHTML = `Have I read it?: ${book.read}`;
+    toggleRead(card) {
+        if (this.read === 'yes') {
+            card.classList.add('notread');
+            card.classList.remove('haveread');
+        } else {
+            card.classList.add('haveread');
+            card.classList.remove('notread');
+        }
+        this.read === 'yes'? this.read = 'no': this.read = 'yes';
+        const readP = card.querySelector('.read-p');
+        readP.innerHTML = `Have I read it?: ${this.read}`;  
+    }   
 }
 
 function addBookToLibrary(...details) {
@@ -147,8 +148,7 @@ function createLibraryCard() {
     toggleBtn.addEventListener('click', (e) => {
         const card = e.target.closest('.library-card');
         const book = myLibrary[card.dataset.index];
-        console.log(book);
-        book.toggleRead(card, book);
+        book.toggleRead(card);
         syncWithDB(0, book, 0);
     });
     toggleBtn.innerHTML = 'Read toggle';
