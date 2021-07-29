@@ -23,7 +23,7 @@ newBookButton.onclick = openModal;
 const submitBookButton = document.querySelector(".submit");
 
 submitBookButton.addEventListener("click", (e) => {
-  e.preventDefault();
+  //   e.preventDefault();
   submitNewBook();
 });
 
